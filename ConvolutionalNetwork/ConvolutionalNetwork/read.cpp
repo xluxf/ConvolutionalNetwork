@@ -9,11 +9,12 @@ using namespace std;
 #define DIM 32
 #define DIM_SQR 1024
 
-int main(int argc, char* argv[])
+int main2(int argc, char* argv[])
 {
+
 	// parse commandline
 	string filename;
-
+/**
 	po::options_description desc("Allowed options");
 	desc.add_options()
 	("help", "produce help message")
@@ -27,7 +28,7 @@ int main(int argc, char* argv[])
  		cout << desc << "\n";
 		return 1;
 	}
-	
+*/
 	// open file
 	ifstream file (filename.c_str(), ios::in | ios::binary);
 	
@@ -42,6 +43,7 @@ int main(int argc, char* argv[])
 	char green[DIM_SQR];
 	char blue[DIM_SQR];
 
+
 	// read
 	while (!file.eof())
 	{
@@ -51,9 +53,8 @@ int main(int argc, char* argv[])
 		file.read(green,DIM_SQR);
 		file.read(blue, DIM_SQR);
 
-		
-
 	}
+
 
 	file.close();
 

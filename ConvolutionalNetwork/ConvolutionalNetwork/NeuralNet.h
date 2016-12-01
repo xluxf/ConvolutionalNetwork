@@ -7,54 +7,75 @@
 #ifndef NN_NEURON_NEURALNET_H
 #define NN_NEURON_NEURALNET_H
 
+
+
 class NeuralNet {
 public:
-    //int deep;
-    unsigned long width;
-    FCLayer* input;
-    FCLayer* output;
+    /**
+    *@brief inputs
+    */
+    char* red;
+    char* green;
+    char* blue;
 
-    NeuralNet(unsigned long d, unsigned long neurons) {
-        //deep = d;
-        width = neurons;
-        input = new FCLayer(neurons,neurons);
-        FCLayer* pointer = input;
-        for (int i = 0; i< d-1; i++) {
-            FCLayer* l = new FCLayer(neurons,neurons);
-            pointer->up = l;
-            l->down = pointer;
-            pointer = l;
-        }
-        output = pointer;
-    }
+    double* output;
 
-    void forward(std::vector <double> &in) {
-        FCLayer* pointer = input;
-        pointer->update(in);
-        while (pointer != output) {
-            pointer = pointer->up;
-            pointer->forward_layer();
-        }
-    }
+    int answer, input_size, output_size;
+    FCLayer* first;
+    FCLayer* last;
 
-    void backProp(std::vector<double> &result) {
-        FCLayer* pointer = output;
-        pointer->backProp_layer(result);
-        pointer = pointer->down;
-        while (pointer != input) {
-            pointer->backProp_layer();
-            pointer = pointer->down;
-        }
-    }
+    /**
+    *@brief constructor for the full connected neural net
+    *@param deep deep of the net
+    *@param neurons number of neurons in one hidden layer
+    *@param input_size size of input
+    *@param output_size size of output
+    */
+    NeuralNet(int deep, int neurons, int input_size, int output_size) ;
 
-    void print() {
-        FCLayer* pointer = input;
-        pointer->print();
-        while (pointer != output) {
-            pointer = pointer->up;
-            pointer->print();
-        }
-    }
+    /**
+    *@brief updates input
+    *@param r red channel
+    *@param g green channel
+    *@param b blue channel
+    */
+    void network_updateInput(char* r, char* g, char* b);
+
+    /**
+    *@brief back propagation of network
+    *@param l right class of the sample
+    */
+    void network_backprop(int l);
+
+    /**
+    *@brief step forward
+    *@param r red channel
+    *@param g green channel
+    *@param b blue channel
+    */
+    void network_forward(char* r, char* g, char* b);
+
+    /**
+    *@brief check if answer is right
+    *@param label right class of the sample
+    */
+    bool network_check(char &label);
+
+    /**
+    *@brief forward step without changing input
+    */
+    void forward() ;
+
+    /**
+    *@brief forward step without changing input
+    *@param result vector of expected outputs
+    */
+    void backProp(std::vector<double> &result);
+
+    /**
+    *@brief prints all weights
+    */
+    void print();
 };
 
 #endif //NN_NEURON_NEURALNET_H

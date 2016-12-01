@@ -9,10 +9,12 @@
 
 #include "FCLayer.h"
 
-static const double INIT_MAX = 0.001;  //max initialize weight
-static const double INIT_MIN = -0.001; //min initialize weight
-static const double LR = 0.01; //learning rate
+#define INIT_MAX 0.1  //max initialize weight
+#define INIT_MIN -0.1 //min initialize weight
+#define LR 0.002 //learning rate
 
+
+//random function used for initialisation of weights
 static double fRand(double fMin, double fMax)
 {
     double f = (double)rand() / RAND_MAX;
@@ -27,52 +29,75 @@ static double sigma(double x) {
 
 
 // fullConnected layer
-
-
-unsigned long n, in;
-FCLayer* up;
-FCLayer* down;
-std::vector <double> w, ddot, out;
-
-FCLayer::FCLayer(unsigned long &inputs, unsigned long &neurons) { //creates layer, number of inputs and neurons
+FCLayer::FCLayer(int &inputs, int &neurons, FCLayer* lower) { //creates layer, number of inputs and neurons
     n = neurons;
     in = inputs;
-    for (int i = 0; i < inputs*neurons+1; ++i) { //randomly initializes weights, w[0] is bias
-        w.push_back(fRand(INIT_MIN,INIT_MAX));
-    }
-    ddot.assign(n,0);
-    out.assign(n,0);
+    down = lower;
+    down_out = &down->out[0];
+    down->ou = n;
+    ddot = new double[n];
+    out = new double[n];
+    w = new double[in*n];
+    bias = fRand(INIT_MIN,INIT_MAX);
 
+    down->up_out = out;
+    down->up_w = w;
+    down->up_ddot = ddot;
+
+
+    for (int i = 0; i < in*n; ++i) { //randomly initializes weights
+        w[i] = fRand(INIT_MIN,INIT_MAX);
+    }
 }
 
+FCLayer::FCLayer(int &inputs, int &neurons) {
+    n = neurons;
+    in = inputs;
+    ddot = new double[n];
+    out = new double[n];
+    w = new double[in*n];
+    bias = fRand(INIT_MIN,INIT_MAX);
+
+    //down->up_out = out;
+    //down->up_w = w;
+    //down->up_ddot = ddot;
+
+
+    for (int i = 0; i < in*n; ++i) { //randomly initializes weights
+        w[i] = fRand(INIT_MIN,INIT_MAX);
+    }
+
+};
+
+FCLayer::~FCLayer() {
+    delete w;
+    delete out;
+    delete ddot;
+};
+
 void FCLayer::forward_layer() { //step forward with activation function
-    double* input = &down->out[0];
     for (int i = 0; i < n; i++) {
-        out[i] = w[0];
+        out[i] = bias;
         for (int j = 0; j < in; j++) {
-            out[i] += w[i*in+j+1] * input[j];
+            out[i] += w[i*in+j] * down_out[j];
         }
         out[i] = sigma(out[i]);
     }
 }
 
 void FCLayer::backProp_layer() {
-    double* upDDot = &up->ddot[0];
-    double* upW = &up->w[0];
-    double* upOut = &up->out[0];
     for (int i = 0; i < n; i++) {
         ddot[i] = 0;
-        for (int j = 0; j < in; j++) {
-            ddot[i] += upDDot[j] * upW[1+i+j*in];
+        for (int j = 0; j < ou; j++) {
+           ddot[i] += up_ddot[j] * up_w[i+j*ou];
         }
-        ddot[i] *= upOut[i] * (1-upOut[i]);
     }
     FCLayer::learn();
 }
 
-void FCLayer::backProp_layer(std::vector <double> result) {
+void FCLayer::backProp_layer(std::vector <double> &result) {
     for (int i = 0; i < n; i++) {
-        ddot[i] = (result[i] - out[i]) * out[i] * (1-out[i]);
+        ddot[i] = (out[i] - result[i]) * out[i] * (1-out[i]);
     }
     FCLayer::learn();
 
@@ -87,18 +112,15 @@ void FCLayer::print() {
 }
 
 void FCLayer::learn() {
-    double* downOut = &down->out[0];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j<in; j++) {
-            w[i*n + j + 1] += ddot[i] * downOut[j] * LR;
+            w[i*in+j] -= ddot[i] * down_out[j] * LR;
         }
     }
 }
 
-void FCLayer::update(std::vector <double> &in) {
-    for (int i = 0; i<n; i++) {
-        out[i] = in[i];
-    }
+void FCLayer::update_input(double* in) {
+    down_out = in;
 };
 
 

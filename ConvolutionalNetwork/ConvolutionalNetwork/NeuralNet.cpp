@@ -1,0 +1,88 @@
+//
+// Created by Filip Lux on 30.11.16.
+//
+
+#include <vector>
+#include "FCLayer.h"
+#include "NeuralNet.h"
+
+
+NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
+    NeuralNet::input_size = input_size;
+    NeuralNet::output_size = output_size;
+
+    first = new FCLayer(input_size,neurons);
+    FCLayer* pointer = first;
+    for (int i = 1; i< deep; i++) {
+        pointer->up = new FCLayer(neurons, neurons, pointer);
+        pointer = pointer->up;
+    }
+    pointer->up = new FCLayer(neurons, output_size, pointer);
+    pointer = pointer->up;
+    last = pointer;
+    output = &last->out[0];
+};
+
+void NeuralNet::network_updateInput(char* r, char* g, char* b){
+    red = r;
+    green = g;
+    blue = b;
+};
+
+void NeuralNet::network_backprop(int l){
+    answer = l;
+    std::vector <double> result;
+    result.assign(10,0.01);
+    result[answer] = 0.99;
+    backProp(result);
+};
+
+void NeuralNet::network_forward(char* r, char* g, char* b){
+    network_updateInput(r,g,b);
+    forward();
+};
+
+bool NeuralNet::network_check(char &label) {
+    for (int i = 0; i < output_size; i++) {
+        if (output[i] > output[label]) {
+            return false;
+        }
+    }
+    return true;
+};
+
+void NeuralNet::forward() {
+
+    double in[input_size];
+    for (unsigned int i = 0; i < input_size; i++)
+        in[i] = static_cast<int>(red[i]);
+    first->update_input(&in[0]);
+
+    FCLayer* pointer = first;
+    pointer->forward_layer();
+    while (pointer != last) {
+        pointer = pointer->up;
+        pointer->forward_layer();
+    }
+};
+
+void NeuralNet::backProp(std::vector<double> &result) {
+
+    last->backProp_layer(result);
+
+    FCLayer* pointer = last->down;
+    while (pointer != first) {
+        pointer->backProp_layer();
+        pointer = pointer->down;
+    }
+};
+
+void NeuralNet::print() {
+    FCLayer* pointer = first;
+    pointer->print();
+    while (pointer != last) {
+        pointer = pointer->up;
+        pointer->print();
+    }
+};
+

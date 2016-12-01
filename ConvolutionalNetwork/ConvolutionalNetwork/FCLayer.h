@@ -5,7 +5,6 @@
 #ifndef NN_NEURON_FCLAYER_H
 #define NN_NEURON_FCLAYER_H
 
-#include <vector>
 
 /**
 *@brief FullConnected layer
@@ -13,9 +12,9 @@
 class FCLayer {
 public:
     /**
-    *@brief number of neurons, number of inputs
+    *@brief number of neurons in this layer, in lower layer, in upper layer
     */
-    unsigned long n, in;
+    int n, in, ou;
     /**
     *@brief pointer to upper layer, NULL if layer is output
     */
@@ -25,17 +24,37 @@ public:
     */
     FCLayer* down;
     /**
-    *@brief weights, ddot of neurons, output od neurons
+    *@brief output of neurons
     */
-    std::vector <double> w, ddot, out;
+    double *out;
+    /**
+    *@brief ddot of neurons
+    */
+    double *ddot;
+    /**
+    *@brief weights of neurons
+    */
+    double *w;
+    /**
+    *@brief bias of layer
+    */
+    double bias;
 
 
     /**
-    *@brief constructor
+    *@brief constructor for the first layer
     *@param inputs number of inputs
     *@param neurons number of neurons
     */
-    FCLayer(unsigned long &inputs, unsigned long &neurons);
+    FCLayer(int &inputs, int &neurons);
+
+    /**
+    *@brief constructor for the upper layers
+    *@param inputs number of inputs
+    *@param neurons number of neurons
+    *@param lower lower layer
+    */
+    FCLayer(int &inputs, int &neurons, FCLayer* lower);
 
     /**
     *@brief forward
@@ -46,10 +65,10 @@ public:
     */
     void backProp_layer();
     /**
-    * @brief backpropagation of output layer
+    * @brief backpropagation for last layer
     * @param result vector of expecting answer
     */
-    void backProp_layer(std::vector <double> result);
+    void backProp_layer(std::vector <double> &result);
     /**
     * @brief print weights
     */
@@ -61,7 +80,19 @@ public:
     /**
     * @brief unsert new values to input
     */
-    void update(std::vector <double> &in);
+    void update_input(double* in);
+
+    double* down_out;
+    double* up_out;
+    double* up_w;
+    double* up_ddot;
+
+    /**
+    * @brief destructor
+    */
+    ~FCLayer();
+
+
 };
 
 

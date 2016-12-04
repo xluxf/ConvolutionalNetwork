@@ -96,6 +96,9 @@
 		<Unit filename="/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h">
 			<Option target="NN_neuron"/>
 		</Unit>
+		<Unit filename="/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h">
+			<Option target="NN_neuron"/>
+		</Unit>
 		<Unit filename="/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.cpp">
 			<Option target="NN_neuron"/>
 		</Unit>

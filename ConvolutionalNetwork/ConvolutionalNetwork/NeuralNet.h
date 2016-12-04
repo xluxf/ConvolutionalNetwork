@@ -14,15 +14,13 @@ public:
     /**
     *@brief inputs
     */
-    char* red;
-    char* green;
-    char* blue;
+    char* input[3];
 
     double* output;
 
     int answer, input_size, output_size;
-    FCLayer* first;
-    FCLayer* last;
+    Layer* first;
+    Layer* last;
 
     /**
     *@brief constructor for the full connected neural net

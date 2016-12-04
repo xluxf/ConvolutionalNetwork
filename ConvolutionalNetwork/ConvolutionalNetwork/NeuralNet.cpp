@@ -5,6 +5,7 @@
 #include <vector>
 #include "FCLayer.h"
 #include "NeuralNet.h"
+#include <memory>
 
 
 NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
@@ -12,7 +13,7 @@ NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
     NeuralNet::output_size = output_size;
 
     first = new FCLayer(input_size,neurons);
-    FCLayer* pointer = first;
+    Layer* pointer = first;
     for (int i = 1; i< deep; i++) {
         pointer->up = new FCLayer(neurons, neurons, pointer);
         pointer = pointer->up;
@@ -24,9 +25,9 @@ NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
 };
 
 void NeuralNet::network_updateInput(char* r, char* g, char* b){
-    red = r;
-    green = g;
-    blue = b;
+    input[0] = r;
+    input[1] = g;
+    input[2] = b;
 };
 
 void NeuralNet::network_backprop(int l){
@@ -55,10 +56,10 @@ void NeuralNet::forward() {
 
     double in[input_size];
     for (unsigned int i = 0; i < input_size; i++)
-        in[i] = static_cast<int>(red[i]);
+        in[i] = static_cast<int>(input[0][i]);
     first->update_input(&in[0]);
 
-    FCLayer* pointer = first;
+    Layer* pointer = first;
     pointer->forward_layer();
     while (pointer != last) {
         pointer = pointer->up;
@@ -70,7 +71,7 @@ void NeuralNet::backProp(std::vector<double> &result) {
 
     last->backProp_layer(result);
 
-    FCLayer* pointer = last->down;
+    Layer* pointer = last->down;
     while (pointer != first) {
         pointer->backProp_layer();
         pointer = pointer->down;
@@ -78,7 +79,7 @@ void NeuralNet::backProp(std::vector<double> &result) {
 };
 
 void NeuralNet::print() {
-    FCLayer* pointer = first;
+    Layer* pointer = first;
     pointer->print();
     while (pointer != last) {
         pointer = pointer->up;

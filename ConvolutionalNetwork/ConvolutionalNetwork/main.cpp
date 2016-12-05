@@ -14,10 +14,8 @@
 
 
 const int LAYERS = 3; // number of FC layers including output
-//const int NEURONS = 50; //number of neurons in one layer
-//const int ITERATIONS = 10000; //number of learning cycles
 
-#if 0
+#if 1
 int main() {
 
     NeuralNet *net = new NeuralNet(LAYERS, DIM_SQR, DIM_SQR, 10);
@@ -26,10 +24,9 @@ int main() {
     string filename = TRAINING_SET1;
 
     // open file
-    ifstream file (filename.c_str(), ios::in | ios::binary);
+    ifstream file(filename.c_str(), ios::in | ios::binary);
 
-    if (!file.is_open())
-    {
+    if (!file.is_open()) {
         cout << "Error opening files" << endl;
         return -1;
     }
@@ -41,18 +38,17 @@ int main() {
 
     int right = 0;
     // read
-    for (int i = 1; i <= 10000; i++)
-    {
+    for (int i = 1; i <= 10000; i++) {
         // get label and each of these channels
         file.get(label);
         file.read(red, DIM_SQR);
-        file.read(green,DIM_SQR);
+        file.read(green, DIM_SQR);
         file.read(blue, DIM_SQR);
-        net->network_forward(red,green,blue);
-        if (net->network_check(label)) right++; //counts correst samples
+        net->network_forward(red, green, blue);
+        if (net->network_check(label)) right++; //counts correct samples
         net->network_backprop(static_cast<int>(label));
 
-        if (i  % 1000 == 0) {   //prints how many samples was correct
+        if (i % 1000 == 0) {   //prints how many samples was correct
             std::cout << i << ". correct: " << right << std::endl;
             right = 0;
         }
@@ -68,7 +64,7 @@ int main() {
             std::cout << net -> last -> ddot[j] << ", ";
         }
         std::cout << endl;
-        std::cout << "w0: ";
+        std::cout << "n0: ";
         for (int j = 1; j <= 10; j++) {
             std::cout << net -> last -> w[j] << ", ";
         }
@@ -84,12 +80,12 @@ int main() {
         for (int j = 2045; j <= 2047; j++) {
             std::cout << net -> last -> w[j] << ", ";
         }
-        std::cout << "\nw2: ";
+        std::cout << "\nn2: ";
         for (int j = 2048; j <= 2058; j++) {
             std::cout << net -> last -> w[j] << ", ";
         }
         std::cout << "...\n";
-        std::cout << "w3: ";
+        std::cout << "n3: ";
         for (int j = 3072; j <= 3082; j++) {
             std::cout << net -> last -> w[j] << ", ";
         }
@@ -98,27 +94,25 @@ int main() {
     }
     file.close();
 
-#if 1 //2. train_batch
+#if 0 //2. train_batch
     // 2. training
     filename = TRAINING_SET2;
 
     // open file
-    ifstream file2 (filename.c_str(), ios::in | ios::binary);
+    ifstream file2(filename.c_str(), ios::in | ios::binary);
 
-    if (!file2.is_open())
-    {
+    if (!file2.is_open()) {
         cout << "Error opening file" << endl;
         return -1;
     }
 
-    for (int i = 10001; i <= 20000; i++)
-    {
+    for (int i = 10001; i <= 20000; i++) {
         // get label and each of these channels
         file2.get(label);
         file2.read(red, DIM_SQR);
-        file2.read(green,DIM_SQR);
+        file2.read(green, DIM_SQR);
         file2.read(blue, DIM_SQR);
-        net->network_forward(red,green,blue);
+        net->network_forward(red, green, blue);
         if (net->network_check(label)) right++;
         net->network_backprop(static_cast<int>(label));
 
@@ -132,27 +126,25 @@ int main() {
 
 #endif
 
-#if 1 //3. train_batch
+#if 0 //3. train_batchs gitem pracuju
     // 3. training
     filename = TRAINING_SET3;
 
     // open file
-    ifstream file3 (filename.c_str(), ios::in | ios::binary);
+    ifstream file3(filename.c_str(), ios::in | ios::binary);
 
-    if (!file3.is_open())
-    {
+    if (!file3.is_open()) {
         cout << "Error opening file" << endl;
         return -1;
     }
 
-    for (int i = 20001; i <= 30000; i++)
-    {
+    for (int i = 20001; i <= 30000; i++) {
         // get label and each of these channels
         file3.get(label);
         file3.read(red, DIM_SQR);
-        file3.read(green,DIM_SQR);
+        file3.read(green, DIM_SQR);
         file3.read(blue, DIM_SQR);
-        net->network_forward(red,green,blue);
+        net->network_forward(red, green, blue);
         if (net->network_check(label)) right++;
         net->network_backprop(static_cast<int>(label));
 
@@ -166,27 +158,25 @@ int main() {
 
 #endif
 
-#if 1 //4. train_batch
+#if 0 //4. train_batch
     // 4. training
     filename = TRAINING_SET4;
 
     // open file
-    ifstream file4 (filename.c_str(), ios::in | ios::binary);
+    ifstream file4(filename.c_str(), ios::in | ios::binary);
 
-    if (!file4.is_open())
-    {
+    if (!file4.is_open()) {
         cout << "Error opening file" << endl;
         return -1;
     }
 
-    for (int i = 30001; i <= 40000; i++)
-    {
+    for (int i = 30001; i <= 40000; i++) {
         // get label and each of these channels
         file4.get(label);
         file4.read(red, DIM_SQR);
-        file4.read(green,DIM_SQR);
+        file4.read(green, DIM_SQR);
         file4.read(blue, DIM_SQR);
-        net->network_forward(red,green,blue);
+        net->network_forward(red, green, blue);
         if (net->network_check(label)) right++;
         net->network_backprop(static_cast<int>(label));
 
@@ -203,32 +193,31 @@ int main() {
     string test_filename = TEST_SET;
 
     // open file
-    ifstream test_file (test_filename.c_str(), ios::in | ios::binary);
+    ifstream test_file(test_filename.c_str(), ios::in | ios::binary);
 
-    if (!test_file.is_open())
-    {
+    if (!test_file.is_open()) {
         cout << "Error opening file" << endl;
         return -1;
     }
 
     right = 0;
     int ans[10] = {};
-    for (int i = 0; i < 1000; i++)
-    //while (!test_file.eof())
+    for (int i = 0; i < 100; i++)
+        //while (!test_file.eof())
     {
         // get label and channels
         test_file.get(label);
         test_file.read(red, DIM_SQR);
-        test_file.read(green,DIM_SQR);
+        test_file.read(green, DIM_SQR);
         test_file.read(blue, DIM_SQR);
-        net->network_forward(red,green,blue);
+        net->network_forward(red, green, blue);
         if (net->network_check(label)) {
             ++right;
             ++ans[label];
             std::cout << right << ". spravna odpoved je " << static_cast<int>(label) << std::endl;
 
             for (int j = 0; j < 10; j++) {
-                std::cout << j << ": " <<net -> output[j]<< ", ";
+                std::cout << j << ": " << net->output[j] << ", ";
             }
             std::cout << endl;
         }
@@ -241,14 +230,15 @@ int main() {
     std::cout << endl;
 
     test_file.close();
-    std::cout << "spravnost: " << right*100/1000 << "%" <<std::endl;
+    std::cout << "spravnost: " << right * 100 / 100 << "%" << std::endl;
 
     return 0;
+}
 
 #endif
 
 
-#if 1           //test forward ConvLayer
+#if 0           //test forward ConvLayer
 double dotProduct(const int* a,  const int* b, int dim_a, int dim_b, int steps_i, int steps_j) {
     double ans = 0;
     for (int i = 0; i <= steps_i; i++) {

@@ -92,7 +92,7 @@ public:
     */
     virtual void print() = 0;
 
-
+    virtual int getType() const { return 0; }
 
 
 };

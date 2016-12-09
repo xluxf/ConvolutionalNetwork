@@ -74,6 +74,8 @@ public:
     *@brief prints all weights
     */
     void print();
+    
+    void network_save(char* path);
 };
 
 #endif //NN_NEURON_NEURALNET_H

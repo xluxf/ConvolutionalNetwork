@@ -6,7 +6,8 @@
 #include "FCLayer.h"
 #include "NeuralNet.h"
 #include <memory>
-
+#include <iostream>
+#include <fstream>
 
 NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
     NeuralNet::input_size = input_size;
@@ -14,7 +15,7 @@ NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
 
     first = new FCLayer(input_size,neurons);
     Layer* pointer = first;
-    for (int i = 1; i< deep; i++) {
+    for (int i = 1; i< deep - 1; i++) {
         pointer->up = new FCLayer(neurons, neurons, pointer);
         pointer = pointer->up;
     }
@@ -86,4 +87,33 @@ void NeuralNet::print() {
         pointer->print();
     }
 };
+
+void NeuralNet::network_save(char* path) {
+    
+    std::ofstream logfile (path);
+    double* up_w;
+    int n, in;
+    
+    Layer* layer = first;
+  
+    while (layer != last) {
+        
+        logfile << layer->getType() << ": ";
+        
+        up_w = layer->up_w; 
+        in = layer->in;
+        n = layer->n;
+        
+        
+        for (int i=0; i < in * n; i++)
+            logfile << up_w[i] << ", ";
+                
+        logfile << "\n";
+        layer = layer->up;
+    }
+    
+    logfile.close();
+    
+};
+
 

@@ -66,6 +66,7 @@ public:
     */
     ~FCLayer();
 
+    int getType() const { return 2; }
 
 };
 

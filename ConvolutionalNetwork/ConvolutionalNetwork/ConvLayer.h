@@ -13,26 +13,27 @@
 class ConvLayer : public Layer {
 
 public:
+
     /**
     *@brief number of neurons in one layer of filter
     */
-    int wn;
+    int wn, w_volume;
     /**
     *@brief dimension of whole net
     */
-    int depth, s, w_dim;
+    int depth, w_dim, s;
     /**
     *@brief deep of lower layer
     */
     int input_depth;
 
-    ConvLayer(int filter_dim, int stroke, int filters);
+    ConvLayer(int filter_dim, int stroke, int filters, int in_dim, int in_depth, double* input);
 
-    ConvLayer(int inputs, int stroke, int filters, Layer* lower);
+    ConvLayer(int filter_dim, int stroke, int filters, Layer* lower);
 
     void forward_layer();
 
-    void backProp_layer(std::vector <double> result);
+    void backProp_layer(double* error);
 
     void backProp_layer();
 
@@ -41,6 +42,11 @@ public:
     void update_input(double* in);
 
     ~ConvLayer();
+
+    void backProp_layer(std::vector <double> result);
+
+
+    void print();
 
 };
 

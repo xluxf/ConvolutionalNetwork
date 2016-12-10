@@ -9,7 +9,7 @@
 #include <algorithm>    //include rand
 #define INIT_MAX 0.1  //max initialize weight
 #define INIT_MIN -0.1 //min initialize weight
-#define LR 0.015 //learning rate
+#define LR 0.001  //learning rate
 
 
 //random function used for initialisation of weights
@@ -60,6 +60,7 @@ public:
     double* up_out;
     double* up_w;
     double* up_ddot;
+    double* down_ddot;
     int depth;
     int input_dim;
     int dim;
@@ -72,7 +73,7 @@ public:
     * @brief backpropagation for last layer
     * @param result vector of expecting answer
     */
-    virtual void backProp_layer(std::vector <double> &result) = 0;
+    virtual void backProp_layer(std::vector <double> result) = 0;
 
     /**
     * @brief forward pass

@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "NeuralNet.h"
+#include "MNeuralNet.h"
 #include "read.cpp"
 
 #define TRAINING_SET1 "data_batch_1.bin"
@@ -21,10 +22,13 @@ const int NEURONS = 2; //number of neurons in one layer
 int main(){
 
     NeuralNet *net = new NeuralNet(LAYERS, NEURONS, 10, 10);
-    
     char path [1024] = "cnn.log";
     
-    net->network_save(path);
+	MyNeuralNet neuralNet;
+	MNeuralNet::Init(neuralNet.layers);
+
+	MNeuralNet::Learn(&neuralNet, TRAINING_SET1);
+	
     
     return 0;
     

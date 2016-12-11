@@ -30,6 +30,15 @@ public:
     FCLayer(int &inputs, int &neurons, Layer* lower);
 
     /**
+    *@brief constructor for the upper layers
+    *@param inputs number of inputs
+    *@param neurons number of neurons
+    *@param lower lower layer
+    *@param weights vector of loaded weights
+    */
+    FCLayer(int &inputs, int &neurons, Layer* lower, std::vector<double> weights);
+
+    /**
     *@brief forward
     */
     void forward_layer();

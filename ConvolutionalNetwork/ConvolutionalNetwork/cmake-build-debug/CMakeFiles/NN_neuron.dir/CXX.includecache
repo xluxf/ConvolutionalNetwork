@@ -6,55 +6,61 @@
 
 #IncludeRegexTransform: 
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.cpp
 ConvLayer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/ConvLayer.h
 vector
 -
 Layer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.cpp
 iostream
 -
 vector
 -
 FCLayer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
 Layer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/Layer.h
 cmath
 -
 algorithm
 -
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.cpp
 vector
 -
 FCLayer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
 NeuralNet.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
+tools.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/tools.h
 memory
 -
+iostream
+-
+fstream
+-
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
 FCLayer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/FCLayer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.cpp
 PoolLayer.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/PoolLayer.h
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/main.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/main.cpp
 iostream
 -
 cmath
@@ -64,15 +70,25 @@ vector
 algorithm
 -
 NeuralNet.h
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/NeuralNet.h
 read.cpp
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/read.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/read.cpp
 
-/home/bobby/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/read.cpp
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/read.cpp
 iostream
 -
 fstream
 -
 boost/program_options.hpp
+-
+
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/tools.cpp
+tools.h
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/tools.h
+
+/home/tomas/dev/ConvolutionalNetwork/ConvolutionalNetwork/ConvolutionalNetwork/tools.h
+iostream
+-
+vector
 -
 

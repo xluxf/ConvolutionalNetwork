@@ -9,7 +9,9 @@ using namespace std;
 #define DIM 32
 #define DIM_SQR 1024
 
-int main2(int argc, char* argv[])
+int read (int argc, char* argv[]);
+
+int read(int argc, char* argv[])
 {
 
 	// parse commandline

@@ -32,6 +32,12 @@ public:
     NeuralNet(int deep, int neurons, int input_size, int output_size) ;
 
     /**
+    *@brief constructor loading network from file
+    *@param path path to the .log file
+    */
+    NeuralNet(char* path);
+
+    /**
     *@brief updates input
     *@param r red channel
     *@param g green channel

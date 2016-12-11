@@ -5,9 +5,12 @@
 #include <vector>
 #include "FCLayer.h"
 #include "NeuralNet.h"
+#include "tools.h"
 #include <memory>
 #include <iostream>
 #include <fstream>
+
+
 
 NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
     NeuralNet::input_size = input_size;
@@ -24,6 +27,40 @@ NeuralNet::NeuralNet(int deep, int neurons, int input_size, int output_size) {
     last = pointer;
     output = &last->out[0];
 };
+
+NeuralNet::NeuralNet(char* path){
+
+    std::ifstream logfile (path);
+
+    int layerCode, neurons, inputs = 0;
+
+    std::vector<double > weights;
+    std::string line;
+
+    Layer *pointer = NULL;
+
+    std::getline(logfile, line);
+    parseLogLine(line, layerCode, neurons, inputs, weights);
+
+    if (layerCode == 2) {
+        first = new FCLayer(neurons, inputs, pointer, weights);
+        pointer = first;
+    }
+
+    while (std::getline(logfile, line)) {
+        parseLogLine(line, layerCode, neurons, inputs, weights);
+
+        if (layerCode == 2){
+            pointer->up = new FCLayer(neurons, inputs, pointer, weights);
+            pointer = pointer->up;
+        }
+
+    }
+
+    logfile.close();
+
+}
+
 
 void NeuralNet::network_updateInput(char* r, char* g, char* b){
     input[0] = r;
@@ -97,16 +134,18 @@ void NeuralNet::network_save(char* path) {
     Layer* layer = first;
   
     while (layer != last) {
-        
-        logfile << layer->getType() << ": ";
-        
+
         up_w = layer->up_w; 
         in = layer->in;
         n = layer->n;
-        
-        
+
+        logfile << "layerCode:" << layer->getType();
+        logfile << "|in:" << in;
+        logfile << "|neurons:" << n;
+
+        logfile << layer->getType() << "|weights:";
         for (int i=0; i < in * n; i++)
-            logfile << up_w[i] << ", ";
+            logfile << up_w[i] << ",";
                 
         logfile << "\n";
         layer = layer->up;

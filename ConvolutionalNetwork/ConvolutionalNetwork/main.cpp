@@ -13,19 +13,22 @@
 #define TEST_SET "test_batch.bin"
 
 
-const int LAYERS = 2; // number of FC layers including output
+const int LAYERS = 3; // number of FC layers including output
 const int NEURONS = 2; //number of neurons in one layer
 //const int ITERATIONS = 10000; //number of learning cycles
 
 
 int main(){
 
-    NeuralNet *net = new NeuralNet(LAYERS, NEURONS, 10, 10);
-    
+//    NeuralNet *net = new NeuralNet(LAYERS, NEURONS, 10, 10);
+
     char path [1024] = "cnn.log";
-    
-    net->network_save(path);
-    
+
+    NeuralNet *net = new NeuralNet(path);
+
+//    net->network_save(path);
+
+
     return 0;
     
 }

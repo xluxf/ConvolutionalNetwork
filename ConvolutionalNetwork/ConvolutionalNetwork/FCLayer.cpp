@@ -10,6 +10,26 @@
 
 
 // fullConnected layer
+FCLayer::FCLayer(int &inputs, int &neurons, Layer* lower, std::vector<double> weights) { //creates layer, number of inputs and neurons
+    n = neurons;
+    in = inputs;
+    ddot = new double[n];
+    out = new double[n];
+    bias = new double[n];
+
+    if (lower){
+        down = lower;
+        input = down->out;
+        down->ou = n;
+        down->up_out = out;
+        down->up_w = w;
+        down->up_ddot = ddot;
+    }
+
+    w = &weights[0];
+
+}
+
 FCLayer::FCLayer(int &inputs, int &neurons, Layer* lower) { //creates layer, number of inputs and neurons
     n = neurons;
     in = inputs;

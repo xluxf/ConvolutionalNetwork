@@ -18,9 +18,6 @@ public:
     double* w;
 
     double* input;
-    double* up_out;
-    double* up_w;
-    double* up_ddot;
     double* down_ddot;
 
 
@@ -52,9 +49,9 @@ public:
 
     /**
     * @brief backpropagation for last layer
-    * @param result vector of expecting answer
+    * @param result expected values
     */
-    void backProp_layer(std::vector <double> result);
+    void computeError(double* result);
 
     /**
     * @brief print weights

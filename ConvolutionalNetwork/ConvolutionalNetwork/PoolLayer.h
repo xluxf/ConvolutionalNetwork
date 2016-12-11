@@ -11,7 +11,7 @@
 
 class PoolLayer : public Layer{
 
-
+public:
     /**
      * Constructor
      * @param lower pointer to lower layer
@@ -34,13 +34,6 @@ class PoolLayer : public Layer{
     * @brief backpropagation
     */
     void backProp_layer();
-
-    /**
-    * @brief backpropagation for last layer
-    * @param result vector of expecting answer
-    */
-    void backProp_layer(std::vector <double> result);
-
 
     /**
     * @brief changing weights according ddot

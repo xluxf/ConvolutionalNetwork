@@ -13,6 +13,13 @@
 class FCLayer : public Layer{
 public:
 
+    double* ddot;
+    double* out;
+    double* w;
+
+    double* input;
+    double* down_ddot;
+
 
     /**
     *@brief constructor for the first layer
@@ -27,7 +34,7 @@ public:
     *@param neurons number of neurons
     *@param lower lower layer
     */
-    FCLayer(int &inputs, int &neurons, Layer* lower);
+    FCLayer(int inputs, int neurons, Layer* lower);
 
     /**
     *@brief forward
@@ -42,9 +49,9 @@ public:
 
     /**
     * @brief backpropagation for last layer
-    * @param result vector of expecting answer
+    * @param result expected values
     */
-    void backProp_layer(std::vector <double> &result);
+    void computeError(double* result);
 
     /**
     * @brief print weights
@@ -66,7 +73,6 @@ public:
     */
     ~FCLayer();
 
-    int getType() const { return 2; }
 
 };
 

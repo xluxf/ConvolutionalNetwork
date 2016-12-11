@@ -30,13 +30,32 @@ int readFile(string filename, Input* input) {
 	}
 }
 
+void convertFormat(MyNeuralNet* net) {
+	const int inputSize = DIM_SQR * 3;
+
+	double input[inputSize];
+	for (int i = 0; i < DIM_SQR;i++) {
+		//input[i] = net->input->red;
+	}
+	for (int i = DIM_SQR; i < DIM_SQR; i++) {
+		//input[i] = net->input->red;
+	}
+	for (int i = DIM_SQR*2; i < DIM_SQR; i++) {
+		//input[i] = net->input->red;
+	}
+}
+
+
 
 // We do not really need init as all the layers should be already initialized
-void MNeuralNet::Init(Layers* layers)
+void MNeuralNet::Init(MyNeuralNet* net)
 {
-	/*layers->FCLayer = new FCLayer(, NUMBER_OF_NEURONS);
-	layers->convLayer = new ConvLayer();
-	layers->poolLayer = new PoolLayer;*/
+	Layers* layers = net->layers;
+		
+	layers->convLayer = new ConvLayer(4,4,2,32,32,new double[1]);
+	layers->poolLayer = new PoolLayer(layers->convLayer);
+	layers->FCLayer = new FCLayer(10000,10, layers->poolLayer);
+
 }
 
 void MNeuralNet::Evaluate(MyNeuralNet * net, string path)
@@ -45,14 +64,15 @@ void MNeuralNet::Evaluate(MyNeuralNet * net, string path)
 
 void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath)
 {
-	readFile(filePath, net->input);
 	Layers* layers = net->layers;
 	
-	//layers->convLayer->setInput;
+	readFile(filePath, net->input);
+	convertFormat(net);
+	
+	layers->convLayer->update_input(net->inputForNet);
+	
 	layers->convLayer->forward_layer;
-	//layers->poolLayer->setInput;
 	layers->poolLayer->forward_layer;
-	//layers->FClayer->setInput
 	layers->FCLayer->forward_layer;
 }
 
@@ -67,15 +87,18 @@ void MNeuralNet::Learn(MyNeuralNet* net, string path)
 void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string path)
 {
 	Layers* layers = net->layers;
-
 	
 	layers->convLayer->forward_layer();
 	layers->poolLayer->forward_layer();
 	layers->FCLayer->forward_layer();
 
-	/*layers->FCLayer->backProp_layer();
+	layers->FCLayer->backProp_layer();
 	layers->poolLayer->backProp_layer();
-	layers->convLayer->backProp_layer();*/
+	layers->convLayer->backProp_layer();
+
+	layers->convLayer->learn();
+	layers->poolLayer->learn();
+	layers->FCLayer->learn();
 }
 
 void MNeuralNet::Release()

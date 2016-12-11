@@ -10,7 +10,7 @@
 
 
 // fullConnected layer
-FCLayer::FCLayer(int &inputs, int &neurons, Layer* lower) { //creates layer, number of inputs and neurons
+FCLayer::FCLayer(int inputs, int neurons, Layer* lower) { //creates layer, number of inputs and neurons
     n = neurons;
     in = inputs;
     down = lower;
@@ -21,9 +21,6 @@ FCLayer::FCLayer(int &inputs, int &neurons, Layer* lower) { //creates layer, num
     w = new double[in*n];
     bias = new double[n];
 
-    down->up_out = out;
-    down->up_w = w;
-    down->up_ddot = ddot;
 
 
     for (int i = 0; i < in*n; ++i) { //randomly initializes weights
@@ -70,20 +67,17 @@ void FCLayer::forward_layer() { //step forward with activation function
 
 void FCLayer::backProp_layer() {
     for (int i = 0; i < n; i++) {
-        ddot[i] = 0;
+        down_ddot[i] = 0;
         for (int j = 0; j < ou; j++) {
-           ddot[i] += up_ddot[j] * up_w[i+j*ou];
+           down_ddot[i] += ddot[j] * w[i+j*ou];
         }
     }
-    FCLayer::learn();
 }
 
-void FCLayer::backProp_layer(std::vector <double> &result) {
+void FCLayer::computeError(double* result) {
     for (int i = 0; i < n; i++) {
         ddot[i] = (out[i] - result[i]) * out[i] * (1-out[i]);
     }
-    FCLayer::learn();
-
 }
 
 void FCLayer::print() {

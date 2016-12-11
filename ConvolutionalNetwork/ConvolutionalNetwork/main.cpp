@@ -21,13 +21,13 @@ const int NEURONS = 2; //number of neurons in one layer
 
 int main(){
 
-    NeuralNet *net = new NeuralNet(LAYERS, NEURONS, 10, 10);
+	
     char path [1024] = "cnn.log";
     
 	MyNeuralNet neuralNet;
-	MNeuralNet::Init(neuralNet.layers);
-
-	MNeuralNet::Learn(&neuralNet, TRAINING_SET1);
+	MNeuralNet::Init(&neuralNet);
+	
+	MNeuralNet::EvaluateOneFile(&neuralNet, TRAINING_SET1);
 	
     
     return 0;

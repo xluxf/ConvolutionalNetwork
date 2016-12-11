@@ -1,15 +1,10 @@
 #pragma once
 #include "Layer.h"
+#include <vector>
 #include <string>
 
 #define DIM 32
 #define DIM_SQR 1024
-
-struct MyNeuralNet {
-	Layers* layers;
-	Input* input;
-	std::vector<int> errors;
-};
 
 struct Layers {
 	Layer* FCLayer;
@@ -24,9 +19,15 @@ struct Input {
 	char blue[DIM_SQR];
 };
 
+struct MyNeuralNet {
+	Layers* layers;
+	Input* input;
+	double* inputForNet;
+	std::vector<int> errors;
+};
 
 namespace MNeuralNet {
-	void Init(Layers* layers);
+	void Init(MyNeuralNet* net);
 
 	void Evaluate(MyNeuralNet* net, std::string path);
 

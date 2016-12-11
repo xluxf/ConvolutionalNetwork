@@ -1,5 +1,5 @@
 //
-// Created by bobby on 27.11.16.
+// Created by Filip Lux on 27.11.16.
 //
 
 #include "PoolLayer.h"
@@ -53,10 +53,6 @@ void PoolLayer::backProp_layer() {
             }
         }
     }
-}
-
-void PoolLayer::backProp_layer(std::vector <double> result) {
-    //not implemented
 }
 
 void PoolLayer::learn() {

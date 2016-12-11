@@ -67,7 +67,6 @@ ConvLayer::ConvLayer(int filter_dim, int stroke, int filters, int in_dim, int in
     //parameters of the filters
     w_dim = filter_dim;
     wn = w_dim * w_dim;  //number of weights in one layer
-    w_volume = wn * depth;
     s = stroke;
 
 
@@ -85,7 +84,6 @@ ConvLayer::ConvLayer(int filter_dim, int stroke, int filters, int in_dim, int in
 
     out = new double[n*depth];
     ddot = new double[n*depth]; //predat do horni vrstvy
-
 }
 
 ConvLayer::ConvLayer(int filter_dim, int stroke, int filters, Layer* lower) {
@@ -95,7 +93,7 @@ ConvLayer::ConvLayer(int filter_dim, int stroke, int filters, Layer* lower) {
     //parameters of the input
     input_depth = down->depth;
     input_dim = down->dim;
-    //input = down->out;
+    input = down->out;
     down_ddot = down->ddot;
 
     //parameters of the output
@@ -153,10 +151,6 @@ void ConvLayer::forward_layer() {
 
 }
 
-void ConvLayer::backProp_layer(double* error) {
-    ddot = error;
-
-}
 
 void ConvLayer::backProp_layer() { //creates lower ddot array
 
@@ -212,12 +206,9 @@ void ConvLayer::learn() {
 
 }
 
-void ConvLayer::backProp_layer(std::vector <double> result) {
-
-}
 
 void ConvLayer::print() {
-
+    //not implemented
 }
 
 

@@ -66,11 +66,6 @@ public:
     * @brief backpropagation
     */
     virtual void backProp_layer() = 0;
-    /**
-    * @brief backpropagation for last layer
-    * @param result vector of expecting answer
-    */
-    virtual void backProp_layer(std::vector <double> result) = 0;
 
     /**
     * @brief forward pass

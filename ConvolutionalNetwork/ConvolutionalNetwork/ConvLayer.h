@@ -17,7 +17,7 @@ public:
     /**
     *@brief number of neurons in one layer of filter
     */
-    int wn, w_volume;
+    int wn;
     /**
     *@brief dimension of whole net
     */
@@ -33,8 +33,6 @@ public:
 
     void forward_layer();
 
-    void backProp_layer(double* error);
-
     void backProp_layer();
 
     void learn();
@@ -42,8 +40,6 @@ public:
     void update_input(double* in);
 
     ~ConvLayer();
-
-    void backProp_layer(std::vector <double> result);
 
 
     void print();

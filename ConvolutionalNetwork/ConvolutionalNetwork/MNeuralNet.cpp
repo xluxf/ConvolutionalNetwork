@@ -7,86 +7,132 @@
 
 using namespace std;
 
-static const int NUMBER_OF_NEURONS = 10;
+#define PICTURE_SIZE 1024
+#define LABEL_SIZE 1
+#define BATCH_SIZE 10000
 
-int readFile(string filename, Input* input) {
+void parseWeights(std::string weights_str, std::vector<double> &weights) {
+
+	std::string value;
+	std::size_t position;
+
+	while ((position = weights_str.find(',')) != std::string::npos && weights_str.compare(",")) {
+		value = weights_str.substr(0, position);
+		weights_str = weights_str.substr(++position);
+		weights.push_back((double)std::stof(value));
+	}
+}
+
+void parseLogLine(std::string line, int &layerCode, int &neurons, int &inputs, std::vector<double> &weights) {
+
+	std::string field, value, label;
+	std::size_t position, position_f;
+
+	// parse parameters
+	while ((position = line.find('|')) != std::string::npos) {
+
+		field = line.substr(0, position);
+		line = line.substr(++position);
+
+		// parse field
+		position_f = field.find(':');
+
+		label = field.substr(0, position_f);
+		value = field.substr(++position_f);
+
+		if (!label.compare("layerCode")) {
+			layerCode = std::stoi(value);
+		}
+		else if (!label.compare("neurons")) {
+			neurons = std::stoi(value);
+		}
+	}
+
+	// parse weights
+	field = line;
+	position_f = field.find(':');
+	label = field.substr(0, position_f);
+	value = field.substr(++position_f);
+	parseWeights(value, weights);
+
+}
+
+static void read(std::string filename, Input* input, int position)
+{
+	// open file
+	std::ifstream file(filename.c_str(), std::ios::in | std::ios::binary);
+	file.seekg((LABEL_SIZE + PICTURE_SIZE * 3)*position);
 	
-	ifstream file(filename.c_str(), ios::in | ios::binary);
+	char tempLabel;
+	char red[1024];
+	char green[1024];
+	char blue[1024];
 
-	if (!file.is_open())
-	{
-		cout << "Error opening file" << endl;
-		return -1;
+	// get label and each of these channels
+	file.get(tempLabel);
+	file.read(red, PICTURE_SIZE);
+	file.read(green, PICTURE_SIZE);
+	file.read(blue, PICTURE_SIZE);
+	
+	input->label = (int)tempLabel;
+
+	for (int i = 0; i < PICTURE_SIZE; i++) {
+		input->values[i] = (double)red[i];
+	}
+	for (int i = PICTURE_SIZE; i < PICTURE_SIZE * 2; i++) {
+		input->values[i] = (double)green[i];
+	}
+	for (int i = PICTURE_SIZE * 2; i < PICTURE_SIZE * 3; i++) {
+		input->values[i] = (double)blue[i];
 	}
 
-	// read
-	while (!file.eof())
-	{
-		// get label and each of these channels
-		file.get(input->label);
-		file.read(input->red, DIM_SQR);
-		file.read(input->green, DIM_SQR);
-		file.read(input->blue, DIM_SQR);
-	}
+	file.close();
 }
 
-void convertFormat(MyNeuralNet* net) {
-	const int inputSize = DIM_SQR * 3;
-
-	double input[inputSize];
-	for (int i = 0; i < DIM_SQR;i++) {
-		//input[i] = net->input->red;
-	}
-	for (int i = DIM_SQR; i < DIM_SQR; i++) {
-		//input[i] = net->input->red;
-	}
-	for (int i = DIM_SQR*2; i < DIM_SQR; i++) {
-		//input[i] = net->input->red;
-	}
-}
-
-
-
-// We do not really need init as all the layers should be already initialized
 void MNeuralNet::Init(MyNeuralNet* net)
 {
-	Layers* layers = net->layers;
-		
-	layers->convLayer = new ConvLayer(4,4,2,32,32,new double[1]);
-	layers->poolLayer = new PoolLayer(layers->convLayer);
-	layers->FCLayer = new FCLayer(10000,10, layers->poolLayer);
+	net->layers = (Layers*)malloc(sizeof(Layers));
+	net->input = (Input*)malloc(sizeof(Input));
+	net->input->values = (double*)malloc(sizeof(double) * PICTURE_SIZE * 3);
 
+	Layers* layers = net->layers;
+	
+	// not sure what parameters to put after it I can refactor it 
+	layers->convLayer = new ConvLayer(4,4,2,32,32,net->input->values);
+	layers->poolLayer = new PoolLayer(layers->convLayer);
+	layers->FCLayer = new FCLayer(1,10, layers->poolLayer);
+	
 }
 
 void MNeuralNet::Evaluate(MyNeuralNet * net, string path)
 {
+	for (int i = 0; i < BATCH_SIZE; i++) {
+		EvaluateOneFile(net, path,i);
+	}
 }
 
-void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath)
+void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath, int position)
 {
+	read(filePath, net->input,position);
 	Layers* layers = net->layers;
-	
-	readFile(filePath, net->input);
-	convertFormat(net);
-	
-	layers->convLayer->update_input(net->inputForNet);
-	
-	layers->convLayer->forward_layer;
-	layers->poolLayer->forward_layer;
-	layers->FCLayer->forward_layer;
+		
+	layers->convLayer->forward_layer();
+	layers->poolLayer->forward_layer();
+	layers->FCLayer->forward_layer();
+	layers->FCLayer->print();
 }
 
 void MNeuralNet::Learn(MyNeuralNet* net, string path)
 {
-	while (true) {
-		LearnOneFile(net, path);
+	for (int i = 0; i < BATCH_SIZE; i++) {
+		LearnOneFile(net, path, i);
 	}
-
 }
 
-void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string path)
+void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string filePath, int position)
 {
 	Layers* layers = net->layers;
+	read(filePath, net->input, position);
 	
 	layers->convLayer->forward_layer();
 	layers->poolLayer->forward_layer();
@@ -101,8 +147,9 @@ void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string path)
 	layers->FCLayer->learn();
 }
 
-void MNeuralNet::Release()
+void MNeuralNet::Release(MyNeuralNet* net)
 {
-
+	free(net->input->values);
+	free(net->input);
 }
 

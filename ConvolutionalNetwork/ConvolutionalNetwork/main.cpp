@@ -2,10 +2,12 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-
+#include <string>
+#include <fstream>
 #include "NeuralNet.h"
 #include "MNeuralNet.h"
-#include "read.cpp"
+
+
 
 #define TRAINING_SET1 "data_batch_1.bin"
 #define TRAINING_SET2 "data_batch_2.bin"
@@ -23,13 +25,13 @@ int main(){
 
 	
     char path [1024] = "cnn.log";
-    
-	MyNeuralNet neuralNet;
-	MNeuralNet::Init(&neuralNet);
+	double in[1024*3];
+	MyNeuralNet net;
 	
-	MNeuralNet::EvaluateOneFile(&neuralNet, TRAINING_SET1);
-	
+	MNeuralNet::Init(&net);
+	MNeuralNet::EvaluateOneFile(&net,TRAINING_SET1,0);
     
+	getchar();
     return 0;
     
 }

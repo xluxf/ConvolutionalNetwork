@@ -14,15 +14,12 @@ struct Layers {
 
 struct Input {
 	char label;
-	char red[DIM_SQR];
-	char green[DIM_SQR];
-	char blue[DIM_SQR];
+	double *values;
 };
 
 struct MyNeuralNet {
 	Layers* layers;
 	Input* input;
-	double* inputForNet;
 	std::vector<int> errors;
 };
 
@@ -31,12 +28,12 @@ namespace MNeuralNet {
 
 	void Evaluate(MyNeuralNet* net, std::string path);
 
-	void EvaluateOneFile(MyNeuralNet* net, std::string filePath);
+	void EvaluateOneFile(MyNeuralNet* net, std::string filePath, int position);
 
 	void Learn(MyNeuralNet* net, std::string path);
 	
-	void LearnOneFile(MyNeuralNet* net, std::string filePath);
+	void LearnOneFile(MyNeuralNet* net, std::string filePath, int position);
 
-	void Release();
+	void Release(MyNeuralNet* net);
 }
 

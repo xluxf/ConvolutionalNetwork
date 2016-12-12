@@ -49,6 +49,35 @@ void parseLogLine (std::string line,  int &layerCode, int &neurons, int &inputs,
 
 }
 
+void read(std::string filename, long n, std::vector<double> &r, std::vector<double> &g, std::vector<double> &b)
+{
+    // open file
+    ifstream file (filename.c_str(), ios::in | ios::binary);
+
+    int DIM_SQR = 1024;
+
+    char label;
+    char red[DIM_SQR];
+    char green[DIM_SQR];
+    char blue[DIM_SQR];
+
+
+    // read
+    while (!file.eof())
+    {
+        // get label and each of these channels
+        file.get(label);
+        file.read(red, DIM_SQR);
+        file.read(green,DIM_SQR);
+        file.read(blue, DIM_SQR);
+
+    }
+
+
+    file.close();
+
+    return 0;
+}
 
 
 

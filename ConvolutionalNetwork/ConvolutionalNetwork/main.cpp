@@ -22,10 +22,6 @@ const int NEURONS = 2; //number of neurons in one layer
 
 
 int main(){
-
-	
-    char path [1024] = "cnn.log";
-	double in[1024*3];
 	MyNeuralNet net;
 	
 	MNeuralNet::Init(&net);

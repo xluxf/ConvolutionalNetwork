@@ -140,8 +140,8 @@ void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string filePath, int positi
 
 	layers->FCLayer->backProp_layer();
 	layers->poolLayer->backProp_layer();
-	layers->convLayer->backProp_layer();
-
+	
+	//addError
 	layers->convLayer->learn();
 	layers->poolLayer->learn();
 	layers->FCLayer->learn();

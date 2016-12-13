@@ -14,6 +14,7 @@ FCLayer::FCLayer(int inputs, int neurons, Layer* lower) { //creates layer, numbe
     n = neurons;
     in = inputs;
     down = lower;
+	down_ddot = down->ddot;
     input = down->out;
     down->ou = n;
     ddot = new double[n];

@@ -115,7 +115,8 @@ void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath, int positio
 {
 	read(filePath, net->input,position);
 	Layers* layers = net->layers;
-		
+	
+	printf("Starting to evaluate %d file. \n", position);
 	layers->convLayer->forward_layer();
 	layers->poolLayer->forward_layer();
 	layers->FCLayer->forward_layer();
@@ -134,6 +135,8 @@ void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string filePath, int positi
 	Layers* layers = net->layers;
 	read(filePath, net->input, position);
 	
+	printf("Starting to learn %d file. \n", position);
+
 	layers->convLayer->forward_layer();
 	layers->poolLayer->forward_layer();
 	layers->FCLayer->forward_layer();

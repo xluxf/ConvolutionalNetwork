@@ -82,9 +82,10 @@ void FCLayer::computeError(double* result) {
 }
 
 void FCLayer::print() {
-    std::cout << "layer weights:" << std::endl;
-    for (int i = 0; i < n*n+1; i++) {
-        std::cout <<  "w" << i << ": " << w[i] << ", ";
+    std::cout << "Results:" << std::endl;
+	std::vector<double> sortedResults;
+    for (int i = 0; i < n; i++) {
+        std::cout << i+1 << ": " << out[i] << " ||| ";
     }
     std::cout << std::endl;
 }

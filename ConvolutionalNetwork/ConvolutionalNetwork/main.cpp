@@ -25,7 +25,8 @@ int main(){
 	MyNeuralNet net;
 	
 	MNeuralNet::Init(&net);
-	MNeuralNet::EvaluateOneFile(&net,TRAINING_SET1,0);
+	MNeuralNet::Learn(&net, TRAINING_SET1);
+	//MNeuralNet::Evaluate(&net,TEST_SET);
     
 	getchar();
     return 0;

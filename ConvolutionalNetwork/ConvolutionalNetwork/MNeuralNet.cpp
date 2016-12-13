@@ -57,7 +57,7 @@ void parseLogLine(std::string line, int &layerCode, int &neurons, int &inputs, s
 
 }
 
-static void read(std::string filename, Input* input, int position)
+static void setInput(std::string filename, Input* input, int position)
 {
 	// open file
 	std::ifstream file(filename.c_str(), std::ios::in | std::ios::binary);
@@ -86,7 +86,26 @@ static void read(std::string filename, Input* input, int position)
 		input->values[i] = (double)blue[i];
 	}
 
+	
 	file.close();
+}
+
+double* createResultArray(int label) {
+	double resultArray[10];
+	for (int i = 0; i < 10; i++) {
+		if (i == label) {
+			resultArray[i] = 1;
+		}
+		else {
+			resultArray[i] = 0;
+		}
+	}
+	return resultArray;
+}
+
+void setInputAndResult(std::string filename, Input* input, int position) {
+	setInput(filename, input, position);
+	createResultArray(input->label);
 }
 
 void MNeuralNet::Init(MyNeuralNet* net)
@@ -94,6 +113,7 @@ void MNeuralNet::Init(MyNeuralNet* net)
 	net->layers = (Layers*)malloc(sizeof(Layers));
 	net->input = (Input*)malloc(sizeof(Input));
 	net->input->values = (double*)malloc(sizeof(double) * PICTURE_SIZE * 3);
+	
 
 	Layers* layers = net->layers;
 	
@@ -113,8 +133,9 @@ void MNeuralNet::Evaluate(MyNeuralNet * net, string path)
 
 void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath, int position)
 {
-	read(filePath, net->input,position);
 	Layers* layers = net->layers;
+	
+	setInput(filePath, net->input, position);
 	
 	printf("Starting to evaluate %d file. \n", position);
 	layers->convLayer->forward_layer();
@@ -125,7 +146,7 @@ void MNeuralNet::EvaluateOneFile(MyNeuralNet * net, string filePath, int positio
 
 void MNeuralNet::Learn(MyNeuralNet* net, string path)
 {
-	for (int i = 0; i < BATCH_SIZE; i++) {
+	for (int i = 0; i < 100; i++) {
 		LearnOneFile(net, path, i);
 	}
 }
@@ -133,14 +154,17 @@ void MNeuralNet::Learn(MyNeuralNet* net, string path)
 void MNeuralNet::LearnOneFile(MyNeuralNet* net, std::string filePath, int position)
 {
 	Layers* layers = net->layers;
-	read(filePath, net->input, position);
 	
-	printf("Starting to learn %d file. \n", position);
+	setInputAndResult(filePath, net->input,position);
+	
+	printf("Starting to learn %d.file \n", position + 1);
 
 	layers->convLayer->forward_layer();
 	layers->poolLayer->forward_layer();
 	layers->FCLayer->forward_layer();
-
+	layers->FCLayer->print();
+	((FCLayer*)(layers->FCLayer))->computeError(net->results);
+	
 	layers->FCLayer->backProp_layer();
 	layers->poolLayer->backProp_layer();
 	
@@ -155,4 +179,6 @@ void MNeuralNet::Release(MyNeuralNet* net)
 	free(net->input->values);
 	free(net->input);
 }
+
+
 

@@ -20,7 +20,7 @@ struct Input {
 struct MyNeuralNet {
 	Layers* layers;
 	Input* input;
-	std::vector<int> errors;
+	double results[10];
 };
 
 namespace MNeuralNet {

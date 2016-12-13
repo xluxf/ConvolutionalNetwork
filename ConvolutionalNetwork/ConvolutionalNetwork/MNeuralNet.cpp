@@ -98,9 +98,9 @@ void MNeuralNet::Init(MyNeuralNet* net)
 	Layers* layers = net->layers;
 	
 	// not sure what parameters to put after it I can refactor it 
-	layers->convLayer = new ConvLayer(4,4,2,32,32,net->input->values);
+	layers->convLayer = new ConvLayer(5,1,3,32,3,net->input->values);
 	layers->poolLayer = new PoolLayer(layers->convLayer);
-	layers->FCLayer = new FCLayer(1,10, layers->poolLayer);
+	layers->FCLayer = new FCLayer(16*16*3,10, layers->poolLayer);
 	
 }
 
